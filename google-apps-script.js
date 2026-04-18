@@ -13,32 +13,48 @@
 //
 
 function doPost(e) {
-  var lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  return handleRequest(e);
+}
 
+function doGet(e) {
+  return handleRequest(e);
+}
+
+function handleRequest(e) {
   try {
     var sheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName("RSVPs") ||
       SpreadsheetApp.getActiveSpreadsheet().insertSheet("RSVPs");
 
-    // Add headers on first use
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(["Timestamp", "Name", "Guests", "Phone"]);
-      sheet
-        .getRange(1, 1, 1, 4)
-        .setFontWeight("bold")
-        .setBackground("#f3f0eb");
     }
 
-    // e.parameter contains form field values (key=value pairs)
-    var name = e.parameter.name || "";
-    var guests = e.parameter.guests || "";
-    var phone = e.parameter.phone || "";
+    var name = "";
+    var guests = "";
+    var phone = "";
+
+    // Try form parameters first (from form submission)
+    if (e && e.parameter) {
+      name = e.parameter.name || "";
+      guests = e.parameter.guests || "";
+      phone = e.parameter.phone || "";
+    }
+
+    // Try JSON body as fallback
+    if (!name && e && e.postData && e.postData.contents) {
+      try {
+        var json = JSON.parse(e.postData.contents);
+        name = json.name || "";
+        guests = json.guests || "";
+        phone = json.phone || "";
+      } catch (ignored) {}
+    }
 
     sheet.appendRow([new Date(), name, guests, phone]);
 
     return ContentService.createTextOutput("OK");
-  } finally {
-    lock.releaseLock();
+  } catch (err) {
+    return ContentService.createTextOutput("Error: " + err.message);
   }
 }
