@@ -1,0 +1,19 @@
+{
+  "name": "engagement",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "deploy": "bun run build && bunx gh-pages -d dist"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "gh-pages": "^6.3.0",
+    "vite": "^8.0.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

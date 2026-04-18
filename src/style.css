@@ -1,0 +1,467 @@
+/* ── Reset ──────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gold: #b8860b;
+  --gold-light: #d4a745;
+  --gold-glow: rgba(184, 134, 11, 0.15);
+  --cream: #faf8f4;
+  --text: #3a3228;
+  --text-light: #6b5e50;
+  --white: #ffffff;
+  --input-border: #d9d3ca;
+  --input-bg: #ffffff;
+  --placeholder: #b8b0a6;
+  --err-bg: #fef2f2;
+  --err-border: #e8d0cf;
+  --err-text: #7f3b3b;
+  --err-body: #9a5454;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gold: #d4a745;
+    --gold-light: #e8c36a;
+    --gold-glow: rgba(212, 167, 69, 0.12);
+    --cream: #1a1816;
+    --text: #e8e0d6;
+    --text-light: #a89b8c;
+    --white: #1a1816;
+    --input-border: #3a3530;
+    --input-bg: #242120;
+    --placeholder: #6b5e50;
+    --err-bg: #2a1f1f;
+    --err-border: #4a3030;
+    --err-text: #e8a0a0;
+    --err-body: #c88080;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Floating decorations ──────────────────────── */
+.floating {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ring {
+  position: absolute;
+  border: 1px solid var(--gold-glow);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.ring-1 { width: 300px; height: 300px; top: -80px; right: -80px; animation: drift 20s ease-in-out infinite; }
+.ring-2 { width: 200px; height: 200px; bottom: 10%; left: -60px; animation: drift 25s ease-in-out infinite reverse; }
+.ring-3 { width: 150px; height: 150px; top: 40%; right: 5%; animation: drift 18s ease-in-out infinite 3s; }
+
+.dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--gold-light);
+  border-radius: 50%;
+  animation: twinkle 4s ease-in-out infinite;
+}
+.dot-1 { top: 12%; left: 10%; animation-delay: 0s; }
+.dot-2 { top: 28%; right: 12%; animation-delay: 0.7s; }
+.dot-3 { top: 55%; left: 18%; animation-delay: 1.5s; }
+.dot-4 { top: 72%; right: 22%; animation-delay: 2.2s; }
+.dot-5 { top: 88%; left: 30%; animation-delay: 0.3s; }
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(15px, -20px) rotate(5deg); }
+  66% { transform: translate(-10px, 15px) rotate(-3deg); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* ── Page ───────────────────────────────────────── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 72px 28px 56px;
+  text-align: center;
+}
+
+/* ── Hero ───────────────────────────────────────── */
+.hero { margin-bottom: 48px; }
+
+.tagline {
+  font-size: 0.82rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+
+.names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.amp {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 300;
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* ── Rule (divider) ────────────────────────────── */
+.rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 36px 0;
+}
+.line {
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+.gem {
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ── Details ────────────────────────────────────── */
+.details { margin-bottom: 8px; }
+
+.card { margin-bottom: 32px; }
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.value {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+.sub {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  margin-top: 3px;
+  font-weight: 300;
+}
+
+/* ── Buttons ────────────────────────────────────── */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  border: 1px solid var(--gold-light);
+  border-radius: 100px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-family: inherit;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--white);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--gold-glow);
+}
+.btn-outline.small { font-size: 0.72rem; padding: 8px 20px; margin-top: 12px; }
+
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 34px;
+  background: var(--gold);
+  color: var(--white);
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-solid:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--gold-glow);
+}
+.btn-solid:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── RSVP ───────────────────────────────────────── */
+.rsvp { margin-bottom: 16px; }
+
+.section-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.section-sub {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+.form {
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+
+.field .opt {
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+  font-size: 0.7rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b5e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a89b8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  }
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.field input::placeholder {
+  color: var(--placeholder);
+}
+
+.form .btn-solid {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* ── RSVP messages ─────────────────────────────── */
+.msg {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.msg-ok {
+  color: var(--gold);
+}
+.msg-ok svg { margin-bottom: 12px; }
+
+.msg-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.msg-body {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+.msg-err {
+  background: var(--err-bg);
+  border: 1px solid var(--err-border);
+  color: var(--err-text);
+}
+.msg-err .msg-body { color: var(--err-body); }
+
+/* ── Art section ────────────────────────────────── */
+.art { margin-bottom: 48px; }
+.art-note {
+  margin-top: 10px;
+  font-size: 0.74rem;
+  color: var(--text-light);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* ── Footer ─────────────────────────────────────── */
+.footer p {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+/* ── Modal ──────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  backdrop-filter: blur(4px);
+}
+.overlay.active { opacity: 1; visibility: visible; }
+
+.overlay-inner {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  transform: scale(0.92);
+  transition: transform 0.35s ease;
+}
+.overlay.active .overlay-inner { transform: scale(1); }
+
+.overlay-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.2s;
+}
+.overlay-close:hover { color: #fff; }
+
+.overlay-img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+/* ── Fade-in ────────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+.d1 { transition-delay: 0.15s; }
+.d2 { transition-delay: 0.3s; }
+.d3 { transition-delay: 0.45s; }
+.d4 { transition-delay: 0.6s; }
+.d5 { transition-delay: 0.75s; }
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .page { padding: 56px 20px 44px; }
+  .names { gap: 8px; }
+  .line { width: 48px; }
+}
